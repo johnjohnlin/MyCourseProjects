@@ -1,0 +1,16 @@
+k = 15;
+[filt, x, Hx] = freq_samp(k, @(x) j*(x-(x>=0.5)));
+
+filtResp_Reso = 1000;
+freqResp_x = (0:(filtResp_Reso-1)) * (1/filtResp_Reso);
+freqResp = fft(circshift([filt zeros(1, filtResp_Reso-2*k-1)], [0 -k]));
+
+subplot(2, 1, 1);
+stem(-k:k, abs(filt));
+subplot(2, 1, 2);
+plot(...
+	x, abs(Hx), 'k',...
+	freqResp_x, abs(freqResp), 'r',...
+	freqResp_x, imag(freqResp), 'g',...
+	freqResp_x, real(freqResp), 'b'...
+);
