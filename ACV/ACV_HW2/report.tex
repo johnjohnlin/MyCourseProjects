@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{fontspec}
+\usepackage{graphicx}% Include figure files
+\usepackage{bm}% bold math
+\usepackage{amsmath}% bold math
+\usepackage{indentfirst}
+\usepackage{subfigure}
+\usepackage[margin=1.5cm]{geometry}
+\setmainfont{文泉驛正黑}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+\newcommand{\figref}[1]{Figure \ref{Fig:#1}.}
+\newcommand{\mm}{\operatorname{mm}}
+\newcommand{\cm}{\operatorname{cm}}
+\newcommand{\inch}{\operatorname{inch}}
+\newcommand{\px}{\operatorname{px}}
+
+\begin{document}
+\title{ACA HW2}
+\author{D01943032 林裕盛, NTU GIEE}
+\date{\today}
+\maketitle
+
+\section{目的}
+
+計算相機中的兩個像素點在真實世界中的距離
+
+\section{使用工具}
+
+我們使用以下這三個工具：
+\begin{itemize}
+\item 文公尺（即捲尺）
+\item Canon EOS M 相機一台
+\item 承上，$18-55 \mm$ 鏡頭一個
+\end{itemize}
+
+\section{結果}
+首先我把文公尺垂直掛在冰箱上面，得到如 \figref{photo} $2592\times 1728$ 的相片。
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{IMG_0076.JPG}
+\caption{拍出來的相片}\label{Fig:photo}
+\end{figure}
+冰箱到相機的距離約 $231 \cm$，因為地上有地磚，所以應該是蠻準的垂直距離。
+
+我們假設是針孔相機模型，並從 EXIF 取得以下資訊（見 \figref{exif}）：
+\begin{itemize}
+\item Focal plane Y-resolution (per unit) (R): $2894.47 \px$
+\item Focal plane Y-resolution unit (U): inch
+\item Focal length (f): $47 \mm$
+\end{itemize}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.4\textwidth]{exif.png}
+\caption{用看圖軟體看 EXIF 資訊}\label{Fig:exif}
+\end{figure}
+其實相機的 X-resolution 跟 Y-resolution 不太一樣，不過差距只有 $0.2\%$，加上尺幾乎是垂直，所以就當作一樣了。
+
+接著我們量測相機中 $80 \cm,~7 \cm$兩點的圖片座標，見 \figref{gimp}，座標在左下角。得：兩點在圖上的距離為 \[\sqrt{(1407-1381)^2+(37-1711)^2} = 1674 \px\]
+
+\begin{figure}[ht]
+\centering
+\subfigure[@$80\cm$]{\includegraphics[width=0.4\textwidth]{80.png}}\qquad
+\subfigure[@$7\cm$]{\includegraphics[width=0.4\textwidth]{7.png}}
+\caption{用看圖軟體看圖片座標}\label{Fig:gimp}
+\end{figure}
+
+接著我們要換算為在 CMOS 晶片上的距離：
+\[1674 \px \times \dfrac{2.54 \cm}{2894.47 \px} = 1.469 \cm\]
+最後使用國中學到的相似形：（在 CMOS 晶片上的距離：焦距）＝（物體大小：物距），得到物體大小為
+\[1.469 \cm * \dfrac{231 \cm}{47 \mm} = 72.2 \cm\]
+理論值是 $73 \cm$，還蠻準的。
+\end{document}

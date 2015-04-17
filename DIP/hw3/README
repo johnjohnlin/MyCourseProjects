@@ -1,0 +1,59 @@
+# DIP HW2
+# 20130928
+# 林裕盛
+# d01943032
+# johnjohnlys@gmail.com
+# -----
+# OS/compiler version
+# -----
+# Linux Desktop 3.2.0-52-generic #78-Ubuntu SMP Fri Jul 26 16:21:44 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux
+# 使用內建 specs。
+# COLLECT_GCC=gcc
+# COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/4.6/lto-wrapper
+# 目的：x86_64-linux-gnu
+# 配置為：../src/configure -v --with-pkgversion='Ubuntu/Linaro 4.6.3-1ubuntu5' --with-bugurl=file:///usr/share/doc/gcc-4.6/README.Bugs --enable-languages=c,c++,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-4.6 --enable-shared --enable-linker-build-id --with-system-zlib --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --with-gxx-include-dir=/usr/include/c++/4.6 --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --enable-gnu-unique-object --enable-plugin --enable-objc-gc --disable-werror --with-arch-32=i686 --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+# 執行緒模型：posix
+# gcc バージョン 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5) 
+# -----
+# Output file format is P5 pgm format.
+# This format is very similar to raw file except it adds some plain-text header (w, h)
+# in front of the file, as a result it can be opened with most image editor (except mspaint).
+# It can be opened as raw file of same size, but there will be some shifting.
+# ---
+# The output files are
+# Problem1:
+# Problem2: N/A
+# Problem3: TexSeg.pgm
+
+CFLAGS=-g -c -DNDEBUG
+
+all: prob1 prob2 prob3
+
+prob1: pgm.o prob1.o morph.o
+	g++ $^ -o $@
+	@echo "Usage: ./prob1 <raw file> <w> <h>"
+	@echo "Parameter for this HW ./prob1 sample1.raw 512 512"
+
+prob2: pgm.o prob2.o texture.o
+	g++ $^ -o $@
+	@echo "Usage: ./prob2 <n> <w> <h> <raw file list>"
+	@echo "Parameter for this HW ./prob2 16 64 64 sample??.raw"
+	@echo "PS: Simple regex must be supported in shell, or you must type something like:"
+	@echo "./prob2 16 64 64 sample01.raw sample02.raw ..."
+
+prob3: pgm.o prob3.o texture.o
+	g++ $^ -o $@
+	@echo "Usage: ./prob3 <raw file> <w> <h>"
+	@echo "Parameter for this HW ./prob3 texture_color.raw 512 512"
+
+prob1.o: prob1.cpp pgm.h morph.h
+	g++ $(CFLAGS) $<
+
+prob2.o: prob2.cpp pgm.h texture.h
+	g++ $(CFLAGS) $<
+
+prob3.o: prob3.cpp pgm.h texture.h
+	g++ $(CFLAGS) $<
+
+%.o: %.cpp %.h
+	g++ $(CFLAGS) $<

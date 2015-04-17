@@ -8,3 +8,6 @@ The abbreviations are:
 * ADSP = Advanced Digital Signal Processing
 * CVSD = Computer Aid ??? VLSI Design (I forgot...)
 * 3dmm = 3D Multi-Media project
+* ACV = Advanced Computer Vision
+* DIP = Digital Image Processing
+* ADSD = Advanced Digital System Design
